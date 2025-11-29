@@ -20,4 +20,8 @@ Route::get('/api/user/{id}', function () {
 
 Route::resource('jobs', JobController::class);
 
+Route::get('/saved-jobs', [JobController::class, 'saved'])->name('jobs.saved');
+
+
+
 Route::get('/', [HomeController::class, 'index']);

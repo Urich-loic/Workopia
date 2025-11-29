@@ -24,7 +24,6 @@
 <main class="container mx-auto">
     {{ $slot }}
 </main>
-<p>This is the main landing page of the application.</p>
 <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

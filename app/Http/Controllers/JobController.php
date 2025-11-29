@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -11,15 +13,14 @@ class JobController extends Controller
      */
     public function index()
     {
-        $title = "Job Listings";
-        $jobs = [
-            'Web Developer',
-            'Graphic Designer',
-            'SEO Specialist',
-            'Content Writer',
-            'Digital Marketer'
-        ];
-        return view('jobs.index', compact('title', 'jobs'));
+        $jobs = Job::all();
+        return view('jobs.index', compact( 'jobs'));
+    }
+
+        public function saved()
+    {
+        $jobs = Job::all();
+        return view('jobs.saved', compact( 'jobs'));
     }
 
     /**
@@ -35,15 +36,38 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'salary' => 'required|min:0|max:1000000',
+            'requirements' => 'string',
+            'benefits' => 'required|string',
+            'tags' => 'string',
+            'country' => 'required|string',
+            'city' => 'required|string',
+            'job_type' => 'required|string',
+            'remote' => 'required|boolean',
+            'company_name' => 'required|string|min:2|max:255',
+            'company_website' => 'required|url',
+            'email' => 'required|email',
+            'contact_phone' => 'string',
+        ]);
+
+        // Job::create([
+        //     'title' => $validated['title'],
+        //     'description' => $validated['description'],
+        // ]);
+
+        // return redirect()->route('jobs.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Job $job)
     {
-        //
+
+        return view('jobs.show')-> with('job',$job);
     }
 
     /**
@@ -51,7 +75,7 @@ class JobController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('jobs.edit');
     }
 
     /**
